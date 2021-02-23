@@ -1,19 +1,26 @@
 import client from '../../client'
 import React from 'react'
 import Layout from '../../components/Layout'
+import PageBuilder from '../../pages/pageBuilder'
+import HeroBlock from "../../blocks/hero-block"
+import AboutProjectBlock from "../../blocks/about-project-block"
+import parseData, {BlockType} from "../../utils/parse-block"
 import {GetStaticProps, GetStaticPaths, GetStaticPropsResult} from 'next'
 
 type ProjectProps = {
-    projectData: {
-        title: string
-    }
+    blockData: any
 }
 
-const Project: React.FC<ProjectProps> = (props: ProjectProps) => {
-    console.log(props)
+const Project: React.FC<ProjectProps> = ({blockData}: ProjectProps) => {
+    const blocks = new Map([
+        [BlockType.HERO, HeroBlock],
+        [BlockType.ABOUT_PROJECT, AboutProjectBlock],
+    ])
     return (
         <Layout>
-            <section>test</section>
+            <section>
+                <PageBuilder blockMap={blocks} data={blockData}/>
+            </section>
         </Layout>
     )
 }
@@ -21,13 +28,14 @@ const Project: React.FC<ProjectProps> = (props: ProjectProps) => {
 export const getStaticProps: GetStaticProps = async ({params}: any): Promise<GetStaticPropsResult<ProjectProps>> => {
     const {slug = ''} = params
 
-    const projectData = await client.fetch(`
+    const data = await client.fetch(`
         *[_type == "project" && slug.current == $slug][0]
     `, {slug})
 
+    const blockData: any = data.blocks.map((block: any) => parseData(block))
     return {
         props: {
-            projectData
+            blockData
         }
     }
 }

@@ -8,7 +8,7 @@ type LayoutProps = {
 }
 const Layout = ({children}: LayoutProps): JSX.Element => {
     return (
-        <div className="min-h-screen">
+        <div className="min-h-screen min-w-screen">
             <Head>
                 <meta name="Portfolio"/>
                 <meta name="og:title" content={siteTitle} />

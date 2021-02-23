@@ -1,33 +1,26 @@
-import React from "react"
+import {FC} from "react"
 import {GetStaticProps, GetStaticPropsResult} from 'next'
 import client from "../client";
 import parseData, {BlockType} from "../utils/parse-block"
-import HeroBlock from "../blocks/hero-block"
 import Layout from "../components/Layout";
+import HeroBlock from "../blocks/hero-block"
+import ProjectBlock from "../blocks/project-block"
+import PageBuilder from "./pageBuilder";
 
 type IndexProps = {
+    blockMap?: any
     blockData: any
 }
 
-const Index: React.FC<IndexProps> = ({blockData}: IndexProps): JSX.Element => {
+const Index: FC<IndexProps> = ({blockData}: IndexProps): JSX.Element => {
     const blocks = new Map([
-        [BlockType.HERO, HeroBlock]
+        [BlockType.HERO, HeroBlock],
+        [BlockType.PROJECT, ProjectBlock]
     ])
+
   return (
     <Layout>
-      <div>
-          {
-              blockData.map((block: any, index: any) => {
-                  if (blocks.has(block.type)) {
-                      const Component = blocks.get(block.type)
-                      console.log(Component)
-                      return (
-                          <Component key={block.id} {...blocks[index]} />
-                      )
-                  }
-              })
-          }
-      </div>
+        <PageBuilder blockMap={blocks} data={blockData} />
     </Layout>
   )
 }

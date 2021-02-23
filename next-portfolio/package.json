@@ -9,9 +9,13 @@
   },
   "dependencies": {
     "@sanity/client": "^2.2.6",
+    "@sanity/image-url": "^0.140.22",
+    "@types/classnames": "^2.2.11",
     "@types/next": "^9.0.0",
     "@zeit/next-typescript": "^1.1.1",
     "autoprefixer": "^10.2.4",
+    "classnames": "^2.2.6",
+    "fontsource-league-spartan": "^4.0.0",
     "next": "10.0.7",
     "postcss": "^8.2.6",
     "react": "17.0.1",
@@ -26,6 +30,10 @@
     "@babel/plugin-transform-react-jsx": "^7.10.4",
     "@babel/preset-env": "^7.11.0",
     "@babel/preset-react": "^7.10.4",
-    "babel-loader": "^8.1.0"
+    "babel-loader": "^8.1.0",
+    "@fortawesome/fontawesome-svg-core": "^1.2.34",
+    "@fortawesome/free-brands-svg-icons": "^5.15.2",
+    "@fortawesome/free-solid-svg-icons": "^5.15.2",
+    "@fortawesome/react-fontawesome": "^0.1.14"
   }
 }

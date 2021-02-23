@@ -3,6 +3,7 @@ export const BlockType = {
     BUTTON_GRID: "button_grid",
     PROJECT: "project_block",
     ABOUT: "about",
+    ABOUT_PROJECT: "about_project",
     JOURNEY: "journey",
     IMAGE_TEXT: "image-text",
     CONTACT: "contact",
@@ -14,18 +15,18 @@ export const parseHeroBlock = (block) => {
         title: block.hero_title,
         subtitle: block.hero_subtitle,
         background: block.hero_background,
-        body: block.hero_body || null,
-        quicklinks: block.quick_links,
-        image: block.hero_image,
-        scroll: block.hero_scroll,
-        socials: block.socials,
+        body: block.hero_body || {},
+        quicklinks: block.quick_links || [],
+        image: block.hero_image || {},
+        scroll: block.hero_scroll || {},
+        socials: block.socials || [],
         columns: block.columns?._rawColumns.map((column) => ({
             title: column.column_title,
             text: column.column_subtext,
             buttonText: column.column_buttonText,
             buttonUrl: column.column_buttonUrl
-        })) || null,
-        status: block.status || null,
+        })) || {},
+        status: block.status || {},
         type: block._type
     }
 }
@@ -53,6 +54,15 @@ export const parseAboutBlock = (block) => {
     }
 }
 
+export const parseAboutProjectBlock = (block) => {
+    return {
+        text: block.brief,
+        image: block.image,
+        link: block.project_link,
+        type: block._type
+    }
+}
+
 export const parseJourneyBlock = (block) => {
     return {
         steps: block.journey_step.map((step) => (parseImageTextBlock(step))),
@@ -71,13 +81,19 @@ export const parseImageTextBlock = (block) => {
 }
 
 export const parseProjectBlock = (block) => {
+    console.log(block)
     return {
-        title: block.title,
-        description: block.description,
-        tech_stack: block.tech_stack || null,
-        logo: block.logo,
-        link: block.link,
-        type: block._type
+        type: block._type,
+        projects: block.project_cards.map(card => {
+            return {
+                title: card.title,
+                description: card.description,
+                tech_stack: card.tech_stack,
+                logo: card.logo,
+                link: card.link,
+            }
+        })
+    
     }
 }
 
@@ -113,6 +129,7 @@ const parsers = new Map([
     [BlockType.HERO, parseHeroBlock],
     [BlockType.BUTTON_GRID, parseButtonGridBlock],
     [BlockType.ABOUT, parseAboutBlock],
+    [BlockType.ABOUT_PROJECT, parseAboutProjectBlock],
     [BlockType.JOURNEY, parseJourneyBlock],
     [BlockType.IMAGE_TEXT, parseImageTextBlock],
     [BlockType.PROJECT, parseProjectBlock],
